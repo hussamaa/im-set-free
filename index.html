@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>I'm Set Free In ...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #countdown {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 15vmin;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="countdown">
+        <p id="d"></p>
+        <p id="h"></p>
+        <p id="m"></p>
+        <p id="s"></p>
+    </div>
+
+    <script src="moment.js"></script>
+
+    <script type="text/javascript">
+        function pluralize(quantity, unit) {
+            if (quantity == 1) {
+                return quantity + ' ' + unit;
+            } else {
+                return quantity + ' ' + unit + 's';
+            }
+        }
+
+        function update() {
+            var countdown = document.querySelector("#countdown");
+            if (!countdown) return;
+
+            var now = moment();
+            var end = moment("2019-06-28 17:00:00.000+02:00");
+            var diff = moment.duration(end.diff(now));
+
+            if (diff < 0) {
+                countdown.textContent = "I'M SET FREE";
+                document.title = "I'M SET FREE"
+            }
+            else {
+                var d = Math.floor(diff.asDays());
+                var h = diff.hours();
+                var m = diff.minutes();
+                var s = diff.seconds();
+                countdown.querySelector("#d").textContent = pluralize(d, 'day');
+                countdown.querySelector("#h").textContent = pluralize(h, 'hour');
+                countdown.querySelector("#m").textContent = pluralize(m, 'minute');
+                countdown.querySelector("#s").textContent = pluralize(s, 'second');
+                document.title = `Left: ${d}d ${h}:${m}:${s}`
+            }
+        }
+
+        setInterval(update, 100);
+    </script>
+</body>
+
+</html>
